@@ -10,28 +10,29 @@ function display(result){
 }
 
 function displayUser(UserNum, result){
-    const allUsers = display(result)
-    if (allUsers == "")
-        result.send("There is no users with the requested id")
-    if (allUsers != "there is an error"){
-        const u = allUsers[UserNum-1];
-            result.send(u) }
-    else
-        display(result)
-}
+    const allUsers = userModel.body
+    console.log(allUsers[0])
+    // if (allUsers == "")
+    //     result.send("There is no users with the requested id")
+    // if (allUsers != "there is an error"){
+    //     const u = allUsers[UserNum-1];
+    //         result.send(u) }
+    // else
+    //     display(result)
+    }
 
 function create(result, request){
-    const {body: {userName, email, password, posts}} = request;
+    // const {body: {userName, email, password, posts}} = request;
     const user = new userModel ({
-        userName: body.userName,
-        email: body.email,
-        password: body.password,
-        posts: body.posts,
+     userName: request.body.userName,
+     email: request.body.email,
+    password: request.body.password,
     })
+
     user.save((err,user)=> {
         if(err) return result.send(err)
-        result.json(user)
-    })
+         result.json(user)
+     })
 }
 
 function deletee(UserNum,result){
