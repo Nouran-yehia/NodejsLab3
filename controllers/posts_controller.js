@@ -9,23 +9,15 @@ function display(result){
     })
 }
 
-function displayPost(PostNum, result){
-    const allposts = display(result)
-    if (allposts == "")
-        result.send("There is no post with the requested id")
-    if (allposts != "there is an error"){
-        const p = allposts[PostNum-1];
-        result.send(p)}
-    else
-        display(result)
+function displayPost(result, request) {
+    result.send (`from get route posts/${eq.params.id}`)
 }
 
+
 function create(result, request){
-    const {body: {title, postbody, user}} = request;
     const post = new postModel ({
-        title: body.title,
-        postbody: body.postbody,
-        user: body.user,
+        title: request.body.title,
+        postbody: request.body.postbody
     })
     post.save((err,post)=> {
         if(err) return result.send(err)
@@ -44,6 +36,6 @@ function deletee(UserNum,result){
 module.exports = {display,
 deletee,
 create,
-displayUser,
+displayPost,
 }
 

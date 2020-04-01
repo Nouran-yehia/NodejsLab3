@@ -10,15 +10,7 @@ function display(result){
 }
 
 function displayUser(UserNum, result){
-    const allUsers = userModel.body
-    console.log(allUsers[0])
-    // if (allUsers == "")
-    //     result.send("There is no users with the requested id")
-    // if (allUsers != "there is an error"){
-    //     const u = allUsers[UserNum-1];
-    //         result.send(u) }
-    // else
-    //     display(result)
+    result.send (`from get route users/${eq.params.id}`)
     }
 
 function create(result, request){

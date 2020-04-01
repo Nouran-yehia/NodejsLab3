@@ -1,25 +1,22 @@
 const express = require ('express');
-
+const postsCon = require('../controllers/posts_controller') 
 const router = express.Router();
 
 router.get('/',(req, res)=>{
-    res.send('from get route')
-})
-
-router.patch('/:id',(req, res)=>{
-    res.send(`from patch route /posts/${req.params.id}`)
+    postsCon.display()
 })
 
 router.post('/',(req, res)=>{
-    res.send('from post route')
+ postsCon.create(res, req)
 })
 
 router.get('/:id',(req, res)=>{
-    res.send(`from get route /posts/${req.params.id}`)
+   const id = req.params.id
+    postCon.displayUser(id, res)
 })
 
 router.delete('/:id',(req, res)=>{
-    res.send( `from delete route /posts/${req.params.id}`)
-})
+    const id = req.params.id
+    postCon.deletee(id, res)})
 
 module.exports= router;
