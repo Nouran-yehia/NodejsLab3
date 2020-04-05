@@ -15,6 +15,11 @@ router.get('/:id',(req, res)=>{
     postCon.displayUser(id, res)
 })
 
+router.put('/:id',(req, res)=>{
+    const id = req.params.id
+    postsCon.edit(req, res)
+})
+
 router.delete('/:id',(req, res)=>{
     const id = req.params.id
     postCon.deletee(id, res)})
