@@ -1,40 +1,49 @@
+const express = require('express');
+const userRouter = require('./routes/users')
+const postRouter = require('./routes/posts')
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 
-const express = require (`express`);
+
+const PORT = process.env.PORT || 4000
 const app = express();
-app.use(bodyParser.json()); 
-const usersR = require('./routes/users');
-const postsR = require('./routes/posts');
+
+app.get('/',(req,res)=>{
+    res.send('Hello World')
+})
+
+app.use(express.json())
+app.use(function log(req, res, next){
+    console.log(new Date() , req.method , req.url);
+    next();
+} )
 
 
+app.use('/user', userRouter)
+app.use('/post', postRouter)
 
-app.use('/users',usersR);
-app.use('/posts',postsR);
-// app.use(bodyParser.urlencoded({extended: false}));
-// app.use(bodyParser.json());
-
-function connMong(error){
-    if(error){
-        console.log("Failed to connect to MongoDB Database!")
-    }else{
-        console.log("Connected to MongoDB Database")
+app.use((req,res,next)=>{
+    if(res.status(404)){
+    next('no such route, please try again')
     }
-}
-
-mongoose.connect('mongodb://localhost:27017/blog',
-{
-//    reconnectInterval : 10000,
-//    reconnectTries: Number.MAX_VALUE,
-   useUnifiedTopology: true,
-   useNewUrlParser: true
-}, (err)=> connMong(err))
-
-app.get('/', function (req, res) {
-    res.send('Welcome to our home page :)')
-  })
+})
 
 
-console.log("listening to port 5000 \n http://localhost:5000/")
+app.use((err, req, res, next)=>{
+        res.send('some errors occur : \n' + err)
+    
+})
 
-app.listen(5000)
+
+app.listen( PORT, (err)=>{
+    console.log(`success ${PORT}`)
+   
+})
+
+//connect db
+mongoose.connect('mongodb://localhost:27017/blogSystem',{
+    useNewUrlParser: true, useUnifiedTopology: true
+}, (err)=>{
+    if(!err) console.log("start mongodb connection")
+    else console.log(err)
+})
+
